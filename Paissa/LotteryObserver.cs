@@ -3,7 +3,6 @@ using AutoSweep.Structures;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using Lumina.Excel.Sheets;
-using Lumina.Text;
 
 namespace AutoSweep.Paissa {
     public unsafe class LotteryObserver {

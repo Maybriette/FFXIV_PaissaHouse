@@ -82,11 +82,10 @@ namespace AutoSweep.Paissa {
         /// <summary>
         ///     Fire and forget a POST request for a ward info.
         /// </summary>
-        public void PostWardInfo(HousingWardInfo wardInfo, int serverTimestamp) {
+        public void PostWardInfo(HousingWardInfo wardInfo) {
             var data = new Dictionary<string, object> {
                 { "event_type", "HOUSING_WARD_INFO" },
                 { "client_timestamp", new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() },
-                { "server_timestamp", serverTimestamp },
                 { "HouseInfoEntries", wardInfo.HouseInfoEntries },
                 { "LandIdent", wardInfo.LandIdent },
                 { "PurchaseType", wardInfo.PurchaseType },
