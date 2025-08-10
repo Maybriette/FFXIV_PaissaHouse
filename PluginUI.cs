@@ -2,7 +2,7 @@
 using System.Numerics;
 using Dalamud.Game.Text;
 using Dalamud.Utility;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace AutoSweep {
     class PluginUI : IDisposable {
