@@ -53,7 +53,7 @@ namespace AutoSweep {
                     $"Configure PaissaHouse settings.\n\"{Utils.CommandName} reset\" to reset a sweep if sweeping the same district multiple times in a row."
             });
 
-            chatLinkPayload = PluginInterface.AddChatLinkHandler(0, OnChatLinkClick);
+            chatLinkPayload = Chat.AddChatLinkHandler(0, OnChatLinkClick);
 
             // event hooks
             PluginInterface.UiBuilder.Draw += DrawUI;
@@ -77,7 +77,7 @@ namespace AutoSweep {
             ClientState.Login -= OnLogin;
             Commands.RemoveHandler(Utils.CommandName);
             Commands.RemoveHandler(Utils.HouseCommandName);
-            PluginInterface.RemoveChatLinkHandler();
+            Chat.RemoveChatLinkHandler();
             PaissaClient?.Dispose();
             lotteryObserver.Dispose();
             wardObserver.Dispose();

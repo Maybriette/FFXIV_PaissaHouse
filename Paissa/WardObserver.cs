@@ -1,9 +1,7 @@
 using System;
-using System.Runtime.InteropServices;
 using AutoSweep.Structures;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
-using Lumina.Text;
 
 namespace AutoSweep.Paissa {
     public unsafe class WardObserver {
@@ -37,7 +35,6 @@ namespace AutoSweep.Paissa {
 
             if (!plugin.Configuration.Enabled) return;
             HousingWardInfo wardInfo = HousingWardInfo.Read(dataPtr);
-            int serverTimestamp = Marshal.ReadInt32(dataPtr - 0x8);
             Plugin.PluginLog.Debug($"Got HousingWardInfo for ward: {wardInfo.LandIdent.WardNumber} territory: {wardInfo.LandIdent.TerritoryTypeId}");
 
             // if the current wardinfo is for a different district than the last swept one, print the header
@@ -63,7 +60,7 @@ namespace AutoSweep.Paissa {
             SweepState.Add(wardInfo);
 
             // post wardinfo to PaissaDB
-            plugin.PaissaClient.PostWardInfo(wardInfo, serverTimestamp);
+            plugin.PaissaClient.PostWardInfo(wardInfo);
 
             // if that's all the wards, display the district summary and thanks
             if (SweepState.IsComplete) OnFinishedDistrictSweep(wardInfo);

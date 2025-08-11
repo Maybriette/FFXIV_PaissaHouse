@@ -1,4 +1,5 @@
-<Project Sdk="Dalamud.NET.Sdk/12.0.2">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Dalamud.NET.Sdk/13.0.0">
 
     <PropertyGroup>
         <Title>autoSweep</Title>
@@ -28,8 +29,11 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
 
+	<PropertyGroup>
+		<Platforms>AnyCPU</Platforms>
+	</PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="12.0.0" />
         <PackageReference Include="DebounceThrottle" Version="2.0.0" />
         <PackageReference Include="WebSocketSharp.Standard" Version="1.0.3" />
     </ItemGroup>

@@ -3,11 +3,11 @@ using AutoSweep.Structures;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using Lumina.Excel.Sheets;
-using Lumina.Text;
 
 namespace AutoSweep.Paissa {
     public unsafe class LotteryObserver {
         private readonly Plugin plugin;
+        private Hook<HandlePlacardSaleInfoDelegate>? placardSaleInfoHook;
 
         private delegate void HandlePlacardSaleInfoDelegate(
             void* agentBase,
@@ -20,14 +20,25 @@ namespace AutoSweep.Paissa {
             long a8
         );
 
-        // easy way to find sig: search for scalar 7043
-        [Signature("E8 ?? ?? ?? ?? 48 8B 74 24 ?? 48 8B 6C 24 ?? E9", DetourName = nameof(OnPlacardSaleInfo))]
-        private Hook<HandlePlacardSaleInfoDelegate>? placardSaleInfoHook;
+        // Original notes: easy way to find sig: search for scalar 7043
+        // New sig method: Find the movups pattern to locate the function
+        [Signature("41 0F 10 06 0F 11 43 48 41 0F 10 4E 10 0F 11 4B 58")]
+        private IntPtr movupsAddress;
 
         public LotteryObserver(Plugin plugin) {
             this.plugin = plugin;
             Plugin.InteropProvider.InitializeFromAttributes(this);
-            placardSaleInfoHook?.Enable();
+
+            // Manually create hook at the function start
+            if (movupsAddress != IntPtr.Zero)
+            {
+                IntPtr functionStart = movupsAddress - 0xA8;
+                placardSaleInfoHook = Plugin.InteropProvider.HookFromAddress<HandlePlacardSaleInfoDelegate>(
+                    functionStart,
+                    OnPlacardSaleInfo
+                );
+                placardSaleInfoHook?.Enable();
+            }
         }
 
         public void Dispose() {
